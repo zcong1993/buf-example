@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package petstore.v1;
+
+import "google/type/datetime.proto";
+
+enum OrderStatus {
+  ORDER_STATUS_PLACED = 0;
+  ORDER_STATUS_APPROVED = 1;
+  ORDER_STATUS_DELIVERED = 2;
+}
+
+enum PetStatus {
+  PET_STATUS_AVAILABLE = 0;
+  PET_STATUS_PENDING = 1;
+  PET_STATUS_SOLD = 2;
+}
+
+message Order {
+  int64 id = 1;
+  int64 pet_id = 2;
+  int32 quantity = 3;
+  optional google.type.DateTime ship_date = 4;
+  OrderStatus status = 5;
+  bool complete = 6;
+}
+
+message Category {
+  int64 id = 1;
+  string name = 2;
+}
+
+message User {
+  int64 id = 1;
+  string username = 2;
+  optional string first_name = 3;
+  optional string last_name = 4;
+  string email = 5;
+  string password = 6;
+  string phone = 7;
+  int32 user_status = 8;
+}
+
+message Tag {
+  int64 id = 1;
+  string name = 2;
+}
+
+message Pet {
+  int64 id = 1;
+  string name = 2;
+  repeated string photo_urls = 3;
+  optional Category category = 4;
+  repeated Tag tags = 5;
+  PetStatus status = 6;
+}
+
+message ResourceRequest {
+  int64 id = 1;
+}
+
+message QueryPetsByStatusRequest {
+  PetStatus status = 1;
+}
+
+message QueryPetsByStatusResponse {
+  repeated Pet pets = 1;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  int64 id = 1;
+}
+
+service StoreService {
+  rpc CreateOrder (Order) returns (Order);
+  rpc GetOrder (ResourceRequest) returns (Order);
+  rpc DeleteOrder (ResourceRequest) returns (ResourceRequest);
+}
+
+service PetService {
+  rpc CreatePet (Pet) returns (Pet);
+  rpc UpdatePet (Pet) returns (Pet);
+  rpc QueryPetsByStatus (QueryPetsByStatusRequest) returns (QueryPetsByStatusResponse);
+  rpc GetPet (ResourceRequest) returns (Pet);
+  rpc DeletePet (ResourceRequest) returns (ResourceRequest);
+}
+
+service UserService {
+  rpc CreateUser (User) returns (User);
+  rpc GetUser (ResourceRequest) returns (User);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc DeleteUser (ResourceRequest) returns (ResourceRequest);
+}

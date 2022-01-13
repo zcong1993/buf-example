@@ -1,0 +1,32 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/zcong1993/buf-example/petstore/gen/proto/go
+    except:
+      - buf.build/googleapis/googleapis
+plugins:
+  - name: go
+    out: go
+    opt: paths=source_relative
+  - name: go-grpc
+    out: go
+    opt:
+      - paths=source_relative
+      - require_unimplemented_servers=false
+  - name: ts
+    path: ./ts/node_modules/.bin/protoc-gen-ts
+    out: ts/dist
+    opt:
+      - service=grpc-node
+      - mode=grpc-js
+  - name: js
+    out: ts/dist
+    opt:
+      - import_style=commonjs
+      - binary
+  - name: grpc-js
+    path: ./ts/node_modules/.bin/grpc_tools_node_protoc_plugin
+    out: ts/dist
+    opt:
+      - grpc_js

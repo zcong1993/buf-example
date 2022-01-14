@@ -9,4 +9,3 @@ lint:
     - BASIC
     - ENUM_ZERO_VALUE_SUFFIX
 #  rpc_allow_same_request_response: true
-

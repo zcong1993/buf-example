@@ -25,6 +25,7 @@ jobs:
           # registry-url: "https://registry.npmjs.org"
           node-version: 16
           cache: pnpm
+          cache-dependency-path: ts/pnpm-lock.yaml
       - name: Setup protoc-gen-go
         uses: zcong1993/setup-bin@master
         env:

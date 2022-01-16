@@ -20,16 +20,12 @@ jobs:
         uses: arduino/setup-protoc@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-      # setup pnpm
-      - uses: pnpm/action-setup@v2
-        with:
-          version: latest
       - uses: actions/setup-node@v2
         with:
           # registry-url: "https://registry.npmjs.org"
           node-version: 16
-          cache: pnpm
-          cache-dependency-path: ts/pnpm-lock.yaml
+          cache: npm
+          cache-dependency-path: ts/package-lock.json
       - name: Setup protoc-gen-go
         uses: zcong1993/setup-bin@master
         env:
@@ -51,7 +47,7 @@ jobs:
       - name: Install generate deps
         run: |
           cd ./ts
-          pnpm install --frozen-lockfile
+          npm ci
       - name: Generate code
         run: make gen
       - name: Commit files

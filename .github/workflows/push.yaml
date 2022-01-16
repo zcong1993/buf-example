@@ -16,6 +16,10 @@ jobs:
       - uses: bufbuild/buf-breaking-action@v1
         with:
           against: 'https://github.com/${GITHUB_REPOSITORY}.git#branch=master,ref=HEAD~1'
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       # setup pnpm
       - uses: pnpm/action-setup@v2
         with:
